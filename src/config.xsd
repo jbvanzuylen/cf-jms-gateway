@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2012 rel. 2 (x64) (http://www.altova.com) by Jean-Bernard van Zuylen (Primeo Services BVBA) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Configuration">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="JndiContext">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="property" type="ContextProperty" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ConnectionFactory" type="xs:string"/>
+				<xs:choice>
+					<xs:element name="QueueName" type="xs:string"/>
+					<xs:element name="TopicName">
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="xs:string">
+									<xs:attribute name="durable" type="xs:boolean" use="required"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+				</xs:choice>
+				<xs:element name="Username" type="xs:string"/>
+				<xs:element name="Password" type="xs:string"/>
+				<xs:element name="ClientId" type="xs:string"/>
+				<xs:element name="AckMode">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="AUTO_ACKNOWLEDGE"/>
+							<xs:enumeration value="CLIENT_ACKNOWLEDGE"/>
+							<xs:enumeration value="DUPS_OK_ACKNOWLEDGE"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Transacted" type="xs:boolean"/>
+				<xs:element name="Selector" type="xs:string" minOccurs="0"/>
+				<xs:element name="Persistent" type="xs:boolean"/>
+				<xs:element name="TimeToLive" type="xs:integer"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ContextProperty">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="key" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+</xs:schema>

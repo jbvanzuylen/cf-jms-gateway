@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<project name="twm" default="build" basedir=".">
+	<path id="project.class.path">
+		<fileset dir="lib" includes="*.jar"/>
+		<fileset file="D:\ColdFusion9\lib\cfusion.jar" />
+		<fileset file="D:\Railo\lib\railo.jar" />
+		<fileset file="D:\Railo\lib\railo-server\patches\4.1.2.005.rc" />
+		<fileset file="D:\Railo\tomcat\lib\jsp-api.jar" />
+	</path>
+	<target name="compile">
+		<!-- Capture the path as a delimited property using the refid attribute -->
+		<property name="myclasspath" refid="project.class.path"/>
+		<!-- Emit the property to the ant console -->
+		<echo message="Classpath = ${myclasspath}"/>
+		<javac destdir="bin" srcdir="src">
+			<classpath refid="project.class.path" />
+		</javac>
+	</target>
+	<target name="build" depends="compile">
+		<jar destfile="jms.jar">
+			<fileset dir="bin" />
+		</jar>
+	</target>
+</project>
