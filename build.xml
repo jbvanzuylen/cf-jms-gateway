@@ -50,7 +50,7 @@
         <filter token="RELEASE_DATE" value="${ext.release.date}" />
       </filterset>
     </copy>
-    <zip destfile="${build.dir}/railo/twitter-gateway-ext.zip">
+    <zip destfile="${build.dir}/railo/jms-gateway-ext.zip">
       <zipfileset dir="${build.dir}/lib" includes="**/*.jar" prefix="lib" />
       <zipfileset dir="${lib.dir}" includes="**/*.jar" prefix="lib" />
       <zipfileset dir="${build.dir}/railo-temp" />
