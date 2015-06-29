@@ -9,14 +9,13 @@ import org.primeoservices.cfgateway.jms.JMSGateway;
 import org.primeoservices.cfgateway.jms.Logger;
 import org.primeoservices.cfgateway.jms.StopOnShutdownTask;
 
-import railo.runtime.gateway.GatewayException;
-import railo.runtime.gateway.GatewayPro;
+import railo.runtime.gateway.Gateway;
 
-public abstract class AbstractRailoJMSGateway implements JMSGateway, GatewayPro
+public abstract class AbstractRailoJMSGateway implements JMSGateway, Gateway
 {
 	private String id;
 
-	private int state = GatewayPro.STOPPED;
+	private int state = Gateway.STOPPED;
 	
 	private JMSConfiguration config;
 	
@@ -89,9 +88,8 @@ public abstract class AbstractRailoJMSGateway implements JMSGateway, GatewayPro
 		{
 			this.state = FAILED;
 			this.log.error("Unable to start gateway", t);
-			final GatewayException ge = new GatewayException("Unable to start gateway: " + t.getMessage());
-			ge.initCause(t);
-			throw ge;
+			final IOException ex = new IOException("Unable to start gateway", t);
+			throw ex;
 		}
 		finally
 		{
@@ -121,9 +119,8 @@ public abstract class AbstractRailoJMSGateway implements JMSGateway, GatewayPro
 		{
 			this.state = FAILED;
 			this.log.error("Unable to stop gateway", t);
-			final GatewayException ge = new GatewayException("Unable to stop gateway: " + t.getMessage());
-			ge.initCause(t);
-			throw ge;
+			final IOException ex = new IOException("Unable to stop gateway", t);
+			throw ex;
 		}
 		finally
 		{

@@ -5,16 +5,16 @@ import java.io.StringWriter;
 
 import org.primeoservices.cfgateway.jms.Logger;
 
-import railo.runtime.gateway.GatewayEnginePro;
-import railo.runtime.gateway.GatewayPro;
+import railo.runtime.gateway.GatewayEngine;
+import railo.runtime.gateway.Gateway;
 
 public class RailoLogger implements Logger
 {
-	private GatewayPro gateway;
+	private Gateway gateway;
 	
-	private GatewayEnginePro engine;
+	private GatewayEngine engine;
 	
-	public RailoLogger(final GatewayPro gateway, final GatewayEnginePro engine)
+	public RailoLogger(final Gateway gateway, final GatewayEngine engine)
 	{
 		this.gateway = gateway;
 		this.engine = engine;
@@ -23,61 +23,61 @@ public class RailoLogger implements Logger
 	@Override
 	public void debug(final String message)
 	{
-		this.log(GatewayEnginePro.LOGLEVEL_DEBUG, message);
+		this.log(GatewayEngine.LOGLEVEL_DEBUG, message);
 	}
 
 	@Override
 	public void debug(final String message, final Throwable t)
 	{
-		this.log(GatewayEnginePro.LOGLEVEL_DEBUG, message, t);
+		this.log(GatewayEngine.LOGLEVEL_DEBUG, message, t);
 	}
 
 	@Override
 	public void info(final String message)
 	{
-		this.log(GatewayEnginePro.LOGLEVEL_INFO, message);
+		this.log(GatewayEngine.LOGLEVEL_INFO, message);
 	}
 
 	@Override
 	public void info(final String message, final Throwable t)
 	{
-		this.log(GatewayEnginePro.LOGLEVEL_INFO, message, t);
+		this.log(GatewayEngine.LOGLEVEL_INFO, message, t);
 	}
 
 	@Override
 	public void warn(final String message)
 	{
-		this.log(GatewayEnginePro.LOGLEVEL_WARN, message);
+		this.log(GatewayEngine.LOGLEVEL_WARN, message);
 	}
 
 	@Override
 	public void warn(final String message, final Throwable t)
 	{
-		this.log(GatewayEnginePro.LOGLEVEL_WARN, message, t);
+		this.log(GatewayEngine.LOGLEVEL_WARN, message, t);
 	}
 
 	@Override
 	public void error(final String message)
 	{
-		this.log(GatewayEnginePro.LOGLEVEL_ERROR, message);
+		this.log(GatewayEngine.LOGLEVEL_ERROR, message);
 	}
 
 	@Override
 	public void error(final String message, final Throwable t)
 	{
-		this.log(GatewayEnginePro.LOGLEVEL_ERROR, message, t);
+		this.log(GatewayEngine.LOGLEVEL_ERROR, message, t);
 	}
 
 	@Override
 	public void fatal(final String message)
 	{
-		this.log(GatewayEnginePro.LOGLEVEL_FATAL, message);
+		this.log(GatewayEngine.LOGLEVEL_FATAL, message);
 	}
 
 	@Override
 	public void fatal(final String message, final Throwable t) 
 	{
-		this.log(GatewayEnginePro.LOGLEVEL_FATAL, message, t);
+		this.log(GatewayEngine.LOGLEVEL_FATAL, message, t);
 	}
 	
 	private void log(final int level, final String message)

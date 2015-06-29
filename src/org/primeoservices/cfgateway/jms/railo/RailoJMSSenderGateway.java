@@ -6,8 +6,7 @@ import java.util.Map;
 import org.primeoservices.cfgateway.jms.JMSExchanger;
 import org.primeoservices.cfgateway.jms.JMSSender;
 
-import railo.runtime.gateway.GatewayEnginePro;
-import railo.runtime.gateway.GatewayException;
+import railo.runtime.gateway.GatewayEngine;
 
 public class RailoJMSSenderGateway extends AbstractRailoJMSGateway
 {
@@ -15,7 +14,7 @@ public class RailoJMSSenderGateway extends AbstractRailoJMSGateway
 	
 	@Override
 	@SuppressWarnings("rawtypes")
-	public void init(final GatewayEnginePro engine, final String id, final String cfcPath, final Map config)
+	public void init(final GatewayEngine engine, final String id, final String cfcPath, final Map config)
 	{
 		this.init(id, config, new RailoLogger(this, engine));
 		this.sender = new JMSSender(this);
@@ -40,9 +39,8 @@ public class RailoJMSSenderGateway extends AbstractRailoJMSGateway
 		}
 		catch (Throwable t)
 		{
-			final GatewayException ge = new GatewayException("Unable to send message: " + t.getMessage());
-			ge.initCause(t);
-			throw ge;
+			final IOException ex = new IOException("Unable to send message", t);
+			throw ex;
 		}
 		finally
 		{

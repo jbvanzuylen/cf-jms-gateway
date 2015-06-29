@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <info>
+    <type>web</type>
+    <id>CEC63B79-ADBF-4726-93ED41C801742ABB</id>
+    <name>jms-gateway</name>
+    <label>JMS Gateway</label>
+    <description></description>
+    <version>@VERSION@</version>
+    <image>https://raw.github.com/jbvanzuylen/cf-jms-gateway/master/railo/jms_logo.png</image>
+    <author>Jean-Bernard van Zuylen</author>
+    <support>https://github.com/jbvanzuylen/cf-jms-gateway/issues</support>
+    <created>@RELEASE_DATE@</created>
+  </info>
+</config>

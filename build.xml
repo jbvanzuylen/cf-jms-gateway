@@ -1,24 +1,72 @@
 <?xml version="1.0"?>
-<project name="twm" default="build" basedir=".">
-	<path id="project.class.path">
-		<fileset dir="lib" includes="*.jar"/>
-		<fileset file="D:\ColdFusion9\lib\cfusion.jar" />
-		<fileset file="D:\Railo\lib\railo.jar" />
-		<fileset file="D:\Railo\lib\railo-server\patches\4.1.2.005.rc" />
-		<fileset file="D:\Railo\tomcat\lib\jsp-api.jar" />
-	</path>
-	<target name="compile">
-		<!-- Capture the path as a delimited property using the refid attribute -->
-		<property name="myclasspath" refid="project.class.path"/>
-		<!-- Emit the property to the ant console -->
-		<echo message="Classpath = ${myclasspath}"/>
-		<javac destdir="bin" srcdir="src">
-			<classpath refid="project.class.path" />
-		</javac>
-	</target>
-	<target name="build" depends="compile">
-		<jar destfile="jms.jar">
-			<fileset dir="bin" />
-		</jar>
-	</target>
+<project name="cf-jms-gateway" default="build" basedir=".">
+  <property name="src.dir" value="${basedir}/src" />
+  <property name="lib.dir" value="${basedir}/lib" />
+  <property name="railo.dir" value="${basedir}/railo" />
+  <property name="build.dir" value="${basedir}/build" />
+  <property name="dist.dir" value="${basedir}/dist" />
+
+  <!-- Load other properties -->
+  <property file="build.properties" />
+
+  <path id="class.path">
+    <fileset dir="${lib.dir}" includes="*.jar" />
+    <fileset file="${railo.jar.file}" />
+    <fileset file="${acf.jar.file}" />
+  </path>
+
+  <target name="clean">
+    <delete dir="${build.dir}" />
+    <delete dir="${dist.dir}" />
+  </target>
+
+  <target name="init" depends="clean">
+    <mkdir dir="${build.dir}/classes" />
+    <mkdir dir="${build.dir}/lib" />
+    <mkdir dir="${build.dir}/railo" />
+    <mkdir dir="${dist.dir}" />
+  </target>
+
+  <target name="compile">
+    <javac srcdir="${src.dir}" destdir="${build.dir}/classes" debug="true">
+      <classpath refid="class.path" />
+    </javac>
+  </target>
+
+  <target name="build" depends="compile">
+    <jar destfile="${build.dir}/lib/jms-gateway.jar">
+      <fileset dir="${build.dir}/classes" />
+    </jar>
+  </target>
+
+  <target name="package-railo-extension" depends="init, build" description="Package the extension for Railo">
+    <tstamp>
+      <format property="ext.release.date" pattern="yyyy-MM-dd hh:mm:ss" />
+    </tstamp>
+    <copy todir="${build.dir}/railo-temp">
+      <fileset dir="${railo.dir}" />
+      <filterset>
+        <filter token="VERSION" value="${project.version}" />
+        <filter token="RELEASE_DATE" value="${ext.release.date}" />
+      </filterset>
+    </copy>
+    <zip destfile="${build.dir}/railo/twitter-gateway-ext.zip">
+      <zipfileset dir="${build.dir}/lib" includes="**/*.jar" prefix="lib" />
+      <zipfileset dir="${lib.dir}" includes="**/*.jar" prefix="lib" />
+      <zipfileset dir="${build.dir}/railo-temp" />
+      <zipfileset dir="${basedir}/listener" prefix="listener" />
+      <zipfileset file="LICENSE" fullpath="license.txt" />
+    </zip>
+    <delete dir="${build.dir}/railo-temp" />
+  </target>
+
+  <target name="dist" depends="init, build, package-railo-extension">
+    <zip destfile="${dist.dir}/cf-jms-gateway-${project.version}.zip">
+      <zipfileset dir="${build.dir}/lib" includes="**/*.jar" prefix="lib" />
+      <zipfileset dir="${lib.dir}" includes="**/*.jar" prefix="lib" />
+      <zipfileset dir="${basedir}/listener" prefix="listener" />
+      <zipfileset file="${build.dir}/railo/jms-gateway-ext.zip" prefix="railo" />
+      <zipfileset file="LICENSE" fullpath="license.txt" />
+    </zip>
+  </target>
 </project>
