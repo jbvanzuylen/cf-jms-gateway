@@ -34,10 +34,10 @@ public class DefaultExceptionListener implements ExceptionListener
     {
       // ignore
     }
-    ConcurrentUtils.execute(new StartModuleTask());
+    ConcurrentUtils.execute(new StartGatewayTask());
   }
 
-  public class StartModuleTask implements Runnable
+  public class StartGatewayTask implements Runnable
   {
     public void run()
     {
