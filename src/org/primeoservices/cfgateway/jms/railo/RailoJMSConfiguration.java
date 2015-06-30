@@ -11,147 +11,147 @@ import org.primeoservices.cfgateway.jms.JMSJndiContext;
 
 public class RailoJMSConfiguration implements JMSConfiguration
 {
-	private static final String JNDI_PROPERTY_PREFIX = "jndi:";
-			
-	private static final String CONNECTION_FACTORY_KEY = "connectionFactory";
-	
-	private static final String USERNAME_KEY = "username";
-	
-	private static final String PASSWORD_KEY = "password";
-	
-	private static final String CLIENT_ID_KEY = "clientId";
-	
-	private static final String PERSISTENT_KEY = "persistent";
-	
-	private static final String PRIORITY_KEY = "priority";
-	
-	private static final String TTL_KEY = "ttl";
-	
-	private static final String DESTINATION_NAME_KEY = "destinationName";
-	
-	private static final String SELECTOR_KEY = "selector";
-	
-	private static final String ACK_MODE_KEY = "ackMode";
-	
-	private static final String TRANSACTED_KEY = "transacted";
-	
-	private static final String DURABLE_KEY = "durable";
-	
-	private Map<String, String> config;
-	
-	public RailoJMSConfiguration(final Map<String, String> config)
-	{
-		this.config = config;
-	}
+  private static final String JNDI_PROPERTY_PREFIX = "jndi:";
 
-	@Override
-	public JMSJndiContext getJndiContext() throws NamingException
-	{
-		return this.createJndiContext();
-	}
-	
-	private JMSJndiContext createJndiContext() throws NamingException
-	{
-		final Properties env = new Properties();
-		for(Map.Entry<String, String> entry : this.config.entrySet())
-		{
-			if (entry.getKey().startsWith(JNDI_PROPERTY_PREFIX))
-			{
-				env.setProperty(entry.getKey().substring(JNDI_PROPERTY_PREFIX.length()), entry.getValue());
-			}
-		}
-		return new JMSJndiContext(env);
-	}
+  private static final String CONNECTION_FACTORY_KEY = "connectionFactory";
 
-	@Override
-	public String getConnectionFactory()
-	{
-		return this.config.get(CONNECTION_FACTORY_KEY);
-	}
+  private static final String USERNAME_KEY = "username";
 
-	@Override
-	public String getUserName()
-	{
-		return this.config.get(USERNAME_KEY);
-	}
+  private static final String PASSWORD_KEY = "password";
 
-	@Override
-	public String getPassword()
-	{
-		return this.config.get(PASSWORD_KEY);
-	}
+  private static final String CLIENT_ID_KEY = "clientId";
 
-	@Override
-	public String getClientId()
-	{
-		return this.config.get(CLIENT_ID_KEY);
-	}
+  private static final String PERSISTENT_KEY = "persistent";
 
-	@Override
-	public boolean isPersistent()
-	{
-		return Boolean.valueOf(this.config.get(PERSISTENT_KEY));
-	}
+  private static final String PRIORITY_KEY = "priority";
 
-	@Override
-	public int getPriority()
-	{
-		return Integer.valueOf(this.config.get(PRIORITY_KEY));
-	}
+  private static final String TTL_KEY = "ttl";
 
-	@Override
-	public int getTimeToLive()
-	{
-		return Integer.valueOf(this.config.get(TTL_KEY));
-	}
+  private static final String DESTINATION_NAME_KEY = "destinationName";
 
-	@Override
-	public String getDestinationName()
-	{
-		return this.config.get(DESTINATION_NAME_KEY);
-	}
+  private static final String SELECTOR_KEY = "selector";
 
-	@Override
-	public String getSelector()
-	{
-		return this.config.get(SELECTOR_KEY);
-	}
-	
-	@Override
-	public AcknowledgeMode getAckMode()
-	{
-		return AcknowledgeMode.fromString(this.config.get(ACK_MODE_KEY));
-	}
+  private static final String ACK_MODE_KEY = "ackMode";
 
-	@Override
-	public boolean isTransacted()
-	{
-		return Boolean.valueOf(this.config.get(TRANSACTED_KEY));
-	}
+  private static final String TRANSACTED_KEY = "transacted";
 
-	@Override
-	public boolean isDurable()
-	{
-		return Boolean.valueOf(this.config.get(DURABLE_KEY));
-	}
-	
-	/**
-	 * Validates the specified configuration
-	 * 
-	 * @param config the configuration to be validated
-	 * 
-	 * @throws Exception
-	 */
-	public static void validate(final Map<String, String> config) throws Exception
-	{
-		final String priority = config.get(PRIORITY_KEY);
-		try
-		{
-			Integer.valueOf(priority);
-		}
-		catch (Exception e)
-		{
-			throw new Exception("Priority must be numeric");
-		}
-	}
+  private static final String DURABLE_KEY = "durable";
+
+  private Map<String, String> config;
+
+  public RailoJMSConfiguration(final Map<String, String> config)
+  {
+    this.config = config;
+  }
+
+  @Override
+  public JMSJndiContext getJndiContext() throws NamingException
+  {
+    return this.createJndiContext();
+  }
+
+  private JMSJndiContext createJndiContext() throws NamingException
+  {
+    final Properties env = new Properties();
+    for (Map.Entry<String, String> entry : this.config.entrySet())
+    {
+      if (entry.getKey().startsWith(JNDI_PROPERTY_PREFIX))
+      {
+        env.setProperty(entry.getKey().substring(JNDI_PROPERTY_PREFIX.length()), entry.getValue());
+      }
+    }
+    return new JMSJndiContext(env);
+  }
+
+  @Override
+  public String getConnectionFactory()
+  {
+    return this.config.get(CONNECTION_FACTORY_KEY);
+  }
+
+  @Override
+  public String getUserName()
+  {
+    return this.config.get(USERNAME_KEY);
+  }
+
+  @Override
+  public String getPassword()
+  {
+    return this.config.get(PASSWORD_KEY);
+  }
+
+  @Override
+  public String getClientId()
+  {
+    return this.config.get(CLIENT_ID_KEY);
+  }
+
+  @Override
+  public boolean isPersistent()
+  {
+    return Boolean.valueOf(this.config.get(PERSISTENT_KEY));
+  }
+
+  @Override
+  public int getPriority()
+  {
+    return Integer.valueOf(this.config.get(PRIORITY_KEY));
+  }
+
+  @Override
+  public int getTimeToLive()
+  {
+    return Integer.valueOf(this.config.get(TTL_KEY));
+  }
+
+  @Override
+  public String getDestinationName()
+  {
+    return this.config.get(DESTINATION_NAME_KEY);
+  }
+
+  @Override
+  public String getSelector()
+  {
+    return this.config.get(SELECTOR_KEY);
+  }
+
+  @Override
+  public AcknowledgeMode getAckMode()
+  {
+    return AcknowledgeMode.fromString(this.config.get(ACK_MODE_KEY));
+  }
+
+  @Override
+  public boolean isTransacted()
+  {
+    return Boolean.valueOf(this.config.get(TRANSACTED_KEY));
+  }
+
+  @Override
+  public boolean isDurable()
+  {
+    return Boolean.valueOf(this.config.get(DURABLE_KEY));
+  }
+
+  /**
+   * Validates the specified configuration
+   * 
+   * @param config the configuration to be validated
+   * 
+   * @throws Exception
+   */
+  public static void validate(final Map<String, String> config) throws Exception
+  {
+    final String priority = config.get(PRIORITY_KEY);
+    try
+    {
+      Integer.valueOf(priority);
+    }
+    catch (Exception e)
+    {
+      throw new Exception("Priority must be numeric");
+    }
+  }
 }

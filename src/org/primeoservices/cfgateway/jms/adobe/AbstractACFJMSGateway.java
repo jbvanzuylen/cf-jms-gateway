@@ -9,58 +9,58 @@ import coldfusion.eventgateway.GenericGateway;
 
 public abstract class AbstractACFJMSGateway extends GenericGateway implements JMSGateway
 {
-	private JMSConfiguration config;
-	
-	private Logger log;
+  private JMSConfiguration config;
 
-	public AbstractACFJMSGateway(final String gatewayID, final String configFilePath)
-	{
-		super(gatewayID);
-		this.config = new ACFJMSConfiguration();
-		this.log =  new ACFLogger(this.getGatewayServices().getLogger());
-	}
-	
-	@Override
-	public String getId()
-	{
-		return this.getGatewayID();
-	}
+  private Logger log;
 
-	@Override
-	public JMSConfiguration getConfiguration()
-	{
-		return this.config;
-	}
+  public AbstractACFJMSGateway(final String gatewayID, final String configFilePath)
+  {
+    super(gatewayID);
+    this.config = new ACFJMSConfiguration();
+    this.log = new ACFLogger(this.getGatewayServices().getLogger());
+  }
 
-	@Override
-	public Logger getLogger()
-	{
-		return this.log;
-	}
+  @Override
+  public String getId()
+  {
+    return this.getGatewayID();
+  }
 
-	@Override
-	public boolean isRunning()
-	{
-		return this.getStatus() == RUNNING;
-	}
+  @Override
+  public JMSConfiguration getConfiguration()
+  {
+    return this.config;
+  }
 
-	@Override
-	protected void startGateway() throws Exception
-	{
-		this.getExchanger().start();
-	}
+  @Override
+  public Logger getLogger()
+  {
+    return this.log;
+  }
 
-	@Override
-	protected void stopGateway() throws Exception
-	{
-		this.getExchanger().stop();
-	}
+  @Override
+  public boolean isRunning()
+  {
+    return this.getStatus() == RUNNING;
+  }
 
-	protected abstract JMSExchanger getExchanger();
+  @Override
+  protected void startGateway() throws Exception
+  {
+    this.getExchanger().start();
+  }
 
-	@Override
-	public void handleError()
-	{
-		// TODO Auto-generated method stub
-	}
+  @Override
+  protected void stopGateway() throws Exception
+  {
+    this.getExchanger().stop();
+  }
+
+  protected abstract JMSExchanger getExchanger();
+
+  @Override
+  public void handleError()
+  {
+    // TODO Auto-generated method stub
+  }
 }
