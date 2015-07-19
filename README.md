@@ -5,7 +5,7 @@ JMS Gateways for ColdFusion
 
 ### Railo
 
-* Copy the `.jar` files needed for the connection to your favorite JMS provider in the `WEB-INF\railo\lib` folder of your web root
+* Copy the `.jar` files needed for the connection to your favorite JMS server in the `WEB-INF\railo\lib` folder of your web root (check the documentation of the JMS provider for info)
 * Restart Railo
 * Download the latest version [here](https://github.com/jbvanzuylen/cf-jms-gateway/releases/download/v0.0.5/jms-gateway-ext.zip)
 
