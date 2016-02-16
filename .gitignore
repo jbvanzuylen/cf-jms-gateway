@@ -1,7 +1,3 @@
 # Build directories #
 build/
 dist/
-
-# Package Files #
-*.war
-*.ear
