@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
+ * A class representing a event gateway sending messages to and receiving messages from a JMS provider 
  * 
  * @author Jean-Bernard van Zuylen
  */
@@ -31,29 +32,30 @@ public interface JMSGateway
   /**
    * Returns the id of this gateway
    * 
-   * @return the gateway id
+   * @return the id of this gateway
    */
   public String getId();
 
   /**
    * Returns the configuration of this gateway
    * 
-   * @return
+   * @return the configuration of this gateway
    */
   public JMSConfiguration getConfiguration();
 
   /**
    * Returns the logger of this gateway
    * 
-   * @return
+   * @return the logger of this gateway
    */
   public Logger getLogger();
 
   /**
    * Handles
    * 
-   * @param data
-   * @throws IOException
+   * @param data the data of the
+   * 
+   * @throws IOException in case of an error when handling the message
    */
   public void handleMessage(Map<String, Object> data) throws IOException;
 

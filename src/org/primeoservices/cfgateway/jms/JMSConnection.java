@@ -17,13 +17,12 @@ package org.primeoservices.cfgateway.jms;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
-import javax.jms.JMSException;
 import javax.jms.Session;
-import javax.naming.NamingException;
 
 import org.primeoservices.cfgateway.jms.utils.JMSUtils;
 
 /**
+ * A class handling the connection between the event gateway and the JMS provider
  * 
  * @author Jean-Bernard van Zuylen
  */
@@ -36,9 +35,11 @@ public class JMSConnection
   private Connection connection;
 
   /**
-   * Creates a new connection class for the specified gateway
+   * Creates a new connection object for the specified gateway
    * 
-   * @param gateway
+   * @param gateway the gateway for which the connection object is to be created
+   * 
+   * @return the connection object just created
    */
   public JMSConnection(final JMSGateway gateway)
   {
@@ -47,12 +48,11 @@ public class JMSConnection
   }
 
   /**
-   * Connects to the JMS server
+   * Connects to the JMS provider
    * 
-   * @throws JMSException
-   * @throws NamingException
+   * @throws Exception in case of an error when connecting
    */
-  public void connect() throws JMSException, NamingException
+  public void connect() throws Exception
   {
     final JMSConfiguration config = this.gateway.getConfiguration();
     final ConnectionFactory factory = config.getJndiContext().lookup(ConnectionFactory.class, config.getConnectionFactory());
@@ -74,22 +74,27 @@ public class JMSConnection
   }
 
   /**
-   * Disconnects from the JMS server
+   * Disconnects from the JMS provider
    * 
-   * @throws JMSException
+   * @throws Exception in case of an error when disconnecting
    */
-  public void disconnect() throws JMSException
+  public void disconnect() throws Exception
   {
     JMSUtils.closeQuietly(this.connection);
     this.connection = null;
   }
 
   /**
-   * Returns
+   * Creates a new session for this connection
    * 
-   * @throws Exception
+   * @param transacted true if the session to be created is transacted, false otherwise
+   * @param acknowledgeMode indicates whether the event gateway will acknowledge the messages received
+   * 
+   * @return the session just created
+   * 
+   * @throws Exception if case of an error when creating a new session
    */
-  public Session createSession(final boolean transacted, final int acknowledgeMode) throws JMSException
+  public Session createSession(final boolean transacted, final int acknowledgeMode) throws Exception
   {
     return this.connection.createSession(transacted, acknowledgeMode);
   }

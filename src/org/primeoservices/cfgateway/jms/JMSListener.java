@@ -29,6 +29,11 @@ import javax.jms.Topic;
 
 import org.primeoservices.cfgateway.jms.utils.JMSUtils;
 
+/**
+ * A class to receive messages from a JMS provider and pass them a event gateway
+ * 
+ * @author Jean-Bernard van Zuylen
+ */
 public class JMSListener extends JMSExchanger implements MessageListener
 {
   private static final String SUBSCRIBER_NAME_SUFFIX = ".subscriber";
@@ -37,19 +42,23 @@ public class JMSListener extends JMSExchanger implements MessageListener
 
   private MessageConsumer consumer;
 
-  // private int failureCount = 0;
-
   /**
-   * Creates a new listener for the specified gateway and JMS session
+   * Creates a new listener object for the specified event gateway
    * 
-   * @param gateway
-   * @param session
+   * @param gateway the gateway for which the listener object is to be created
+   * 
+   * @return the listener object just created
    */
   public JMSListener(final JMSGateway gateway)
   {
     super(gateway);
   }
 
+  /**
+   * Starts this listener
+   * 
+   * @throws Exception in case of an error when starting
+   */
   @Override
   public void start() throws Exception
   {
@@ -70,6 +79,11 @@ public class JMSListener extends JMSExchanger implements MessageListener
     this.getLog().debug("Message consumer started");
   }
 
+  /**
+   * Stops this listener
+   * 
+   * @throws Exception if case of an error when stopping
+   */
   @Override
   public void stop() throws Exception
   {
@@ -80,6 +94,11 @@ public class JMSListener extends JMSExchanger implements MessageListener
     this.getConnection().disconnect();
   }
 
+  /**
+   * Passes the specified message to the event gateway
+   * 
+   * @param message the message to be passed to the event gateway
+   */
   @Override
   public void onMessage(final Message message)
   {
@@ -103,9 +122,7 @@ public class JMSListener extends JMSExchanger implements MessageListener
   }
 
   /**
-   * Class that allows the
-   * 
-   * @author Jean-Bernard van Zuylen
+   * A class that allows the event gateway to acknowledge, commit or roll back the current message
    */
   public class Callback
   {
@@ -114,10 +131,10 @@ public class JMSListener extends JMSExchanger implements MessageListener
     private Session session;
 
     /**
+     * Creates a new <code>Callback</code> object specified message and session
      * 
-     * 
-     * @param message
-     * @param session
+     * @param message the message for which the callback is to be created
+     * @param session the session to the JMS server
      */
     private Callback(final Message message, final Session session)
     {

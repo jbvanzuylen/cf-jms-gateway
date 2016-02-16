@@ -16,8 +16,9 @@
 package org.primeoservices.cfgateway.jms;
 
 /**
+ * The base class for the exchange of messages between the event gateway and the JMS provider
  * 
- * @author Jean-Bernard
+ * @author Jean-Bernard van Zuylen
  */
 public abstract class JMSExchanger
 {
@@ -28,9 +29,11 @@ public abstract class JMSExchanger
   private Logger log;
 
   /**
-   * Creates a new <code>JMSExchanger</code> object for the specified gateway
+   * Creates a new exchanger object for the specified gateway
    * 
-   * @param gateway the gateway for which the 
+   * @param gateway the gateway for which the exchanger object is to be created
+   * 
+   * @return the exchanger object just created
    */
   protected JMSExchanger(final JMSGateway gateway)
   {
@@ -59,6 +62,11 @@ public abstract class JMSExchanger
     return this.connection;
   }
 
+  /**
+   * Returns the log for this exchanger
+   * 
+   * @return the log for this exchanger
+   */
   protected Logger getLog()
   {
     return this.log;
@@ -67,14 +75,14 @@ public abstract class JMSExchanger
   /**
    * Starts this exchanger between the JMS provider and the gateway
    * 
-   * @throws Exception
+   * @throws Exception in case of an error when starting
    */
   public abstract void start() throws Exception;
 
   /**
    * Stops this exchanger
    * 
-   * @throws Exception
+   * @throws Exception in case of an error when stopping
    */
   public abstract void stop() throws Exception;
 }

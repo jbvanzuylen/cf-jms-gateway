@@ -18,14 +18,17 @@ package org.primeoservices.cfgateway.jms;
 import java.util.Map;
 
 import javax.jms.Destination;
-import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
-import javax.naming.NamingException;
 
 import org.primeoservices.cfgateway.jms.utils.JMSUtils;
 
+/**
+ * A class to send messages from the event gateway to the JMS provider
+ * 
+ * @author Jean-Bernard van Zuylen
+ */
 public class JMSSender extends JMSExchanger
 {
   public static final String MESSAGE_KEY = "message";
@@ -43,15 +46,22 @@ public class JMSSender extends JMSExchanger
   private MessageProducer producer;
 
   /**
-   * Creates a new JMS sender for the specified gateway
+   * Creates a new sender object for the specified gateway
    * 
-   * @param gateway
+   * @param gateway the gateway for which the sender object is to be created
+   * 
+   * @return the sender object just created
    */
   public JMSSender(final JMSGateway gateway)
   {
     super(gateway);
   }
 
+  /**
+   * Starts this sender
+   * 
+   * @throws Exception in case of an error when starting
+   */
   @Override
   public void start() throws Exception
   {
@@ -63,6 +73,11 @@ public class JMSSender extends JMSExchanger
     this.getLog().debug("Message producer started");
   }
 
+  /**
+   * Stops this sender
+   * 
+   * @throws Exception in case of an error when stopping
+   */
   @Override
   public void stop() throws Exception
   {
@@ -74,14 +89,13 @@ public class JMSSender extends JMSExchanger
   }
 
   /**
-   * Posts a message to the JMS server with the specified data
+   * Posts a message to the JMS provider with the specified data
    * 
-   * @param data the data to be posted
+   * @param data the data of the message to be posted
    * 
-   * @throws JMSException
-   * @throws NamingException
+   * @throws Exception in case of an error when sending a message
    */
-  public void postMessage(final Map<String, Object> data) throws JMSException, NamingException
+  public void postMessage(final Map<String, Object> data) throws Exception
   {
     final JMSConfiguration config = this.getGateway().getConfiguration();
     final int mode = JMSUtils.extractDeliveryMode(config, data);
