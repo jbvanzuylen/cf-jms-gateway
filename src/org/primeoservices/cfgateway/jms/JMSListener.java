@@ -103,20 +103,6 @@ public class JMSListener extends JMSExchanger implements MessageListener
   }
 
   /**
-   * private void onMessageFailure(final Message message) { this.failureCount++; if (this.failureCount > maxFailure && maxFailure > -1) { // Maximum
-   * retries reached this.ackMessage(message); } else {
-   * 
-   * } }
-   * 
-   * 
-   * private void ackMessage(final Message message) { message.acknowledge(); this.failureCount = 0; if (this.session.getTransacted())
-   * this.session.commit();
-   * 
-   * 
-   * }
-   **/
-
-  /**
    * Class that allows the
    * 
    * @author Jean-Bernard van Zuylen
