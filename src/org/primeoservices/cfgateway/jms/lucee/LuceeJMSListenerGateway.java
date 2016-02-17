@@ -22,17 +22,18 @@ import org.primeoservices.cfgateway.jms.JMSExchanger;
 import org.primeoservices.cfgateway.jms.JMSListener;
 
 import lucee.runtime.gateway.GatewayEngine;
+import lucee.runtime.type.Collection.Key;
 import lucee.runtime.type.Struct;
 
 public class LuceeJMSListenerGateway extends AbstractLuceeJMSGateway
 {
-  private static final String GATEWAY_ID_KEY = "gatewayId";
+  private static final Key GATEWAY_ID_KEY = LuceeUtils.createKey("gatewayId");
 
-  private static final String GATEWAY_TYPE_KEY = "gatewayType";
+  private static final Key GATEWAY_TYPE_KEY = LuceeUtils.createKey("gatewayType");
 
-  private static final String DATA_KEY = "data";
+  private static final Key DATA_KEY = LuceeUtils.createKey("data");
   
-  private static final String EVENT_KEY = "event";
+  private static final Key EVENT_KEY = LuceeUtils.createKey("event");
 
   private GatewayEngine engine;
 
@@ -65,11 +66,11 @@ public class LuceeJMSListenerGateway extends AbstractLuceeJMSGateway
   public void handleMessage(final Map<String, Object> data) throws IOException
   {
     final Struct event = LuceeUtils.createStruct();
-    event.setEL(LuceeUtils.createKey(GATEWAY_ID_KEY), this.getId());
-    event.setEL(LuceeUtils.createKey(GATEWAY_TYPE_KEY), GATEWAY_TYPE);
-    event.setEL(LuceeUtils.createKey(DATA_KEY), LuceeUtils.toStruct(data));
+    event.setEL(GATEWAY_ID_KEY, this.getId());
+    event.setEL(GATEWAY_TYPE_KEY, GATEWAY_TYPE);
+    event.setEL(DATA_KEY, LuceeUtils.toStruct(data));
     final Struct arguments = LuceeUtils.createStruct();
-    arguments.put(LuceeUtils.createKey(EVENT_KEY), event);
+    arguments.put(EVENT_KEY, event);
     final boolean success = this.engine.invokeListener(this, LISTENER_INVOKE_METHOD, arguments);
     if (!success) throw new IOException("Error while invoke listener cfc");
   }
