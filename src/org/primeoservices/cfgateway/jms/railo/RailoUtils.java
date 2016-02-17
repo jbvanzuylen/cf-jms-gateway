@@ -17,8 +17,10 @@ package org.primeoservices.cfgateway.jms.railo;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Map;
 
 import railo.loader.engine.CFMLEngineFactory;
+import railo.runtime.type.Collection.Key;
 import railo.runtime.type.Struct;
 
 /**
@@ -34,9 +36,46 @@ public class RailoUtils
   }
 
   /**
-   * Creates a new structure
+   * Converts the specified data in a <code>Map</code> to a structure object 
    * 
-   * @return the structure just created
+   * @param data the data to be converted
+   * 
+   * @return the structure object containing the passed data
+   */
+  @SuppressWarnings("unchecked")
+  public static Struct toStruct(Map<String, Object> data)
+  {
+    final Struct result = createStruct();
+    for (Map.Entry<String, Object> entry : data.entrySet())
+    {
+      if (Map.class.isAssignableFrom(entry.getValue().getClass()))
+      {
+        result.setEL(createKey(entry.getKey()), toStruct((Map<String, Object>) entry.getValue()));
+      }
+      else
+      {
+        result.setEL(createKey(entry.getKey()), entry.getValue());
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Creates a new key object from the specified string
+   * 
+   * @param key the string for which the key object is to be created
+   * 
+   * @return a key object just created for the given string
+   */
+  public static Key createKey(final String key)
+  {
+    return CFMLEngineFactory.getInstance().getCreationUtil().createKey(key);
+  }
+
+  /**
+   * Creates a new structure object
+   * 
+   * @return the structure object just created
    */
   public static Struct createStruct()
   {

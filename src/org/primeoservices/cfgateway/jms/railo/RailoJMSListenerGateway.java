@@ -16,22 +16,24 @@
 package org.primeoservices.cfgateway.jms.railo;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.primeoservices.cfgateway.jms.JMSExchanger;
 import org.primeoservices.cfgateway.jms.JMSListener;
 
 import railo.runtime.gateway.GatewayEngine;
+import railo.runtime.type.Collection.Key;
 import railo.runtime.type.Struct;
 
 public class RailoJMSListenerGateway extends AbstractRailoJMSGateway
 {
-  private static final String GATEWAY_ID_KEY = "GATEWAYID";
+  private static final Key GATEWAY_ID_KEY = RailoUtils.createKey("gatewayId");
 
-  private static final String GATEWAY_TYPE_KEY = "GATEWAYTYPE";
+  private static final Key GATEWAY_TYPE_KEY = RailoUtils.createKey("gatewayType");
 
-  private static final String DATA_KEY = "DATA";
+  private static final Key DATA_KEY = RailoUtils.createKey("data");
+  
+  private static final Key EVENT_KEY = RailoUtils.createKey("event");
 
   private GatewayEngine engine;
 
@@ -60,15 +62,14 @@ public class RailoJMSListenerGateway extends AbstractRailoJMSGateway
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   public void handleMessage(final Map<String, Object> data) throws IOException
   {
     final Struct event = RailoUtils.createStruct();
-    event.put(GATEWAY_ID_KEY, this.getId());
-    event.put(GATEWAY_TYPE_KEY, GATEWAY_TYPE);
-    event.put(DATA_KEY, data);
-    final Map<String, Struct> arguments = new HashMap<String, Struct>(1);
-    arguments.put("event", event);
+    event.setEL(GATEWAY_ID_KEY, this.getId());
+    event.setEL(GATEWAY_TYPE_KEY, GATEWAY_TYPE);
+    event.setEL(DATA_KEY, data);
+    final Struct arguments = RailoUtils.createStruct();
+    arguments.setEL(EVENT_KEY, event);
     final boolean success = this.engine.invokeListener(this, LISTENER_INVOKE_METHOD, arguments);
     if (!success) throw new IOException("Error while invoke listener cfc");
   }
