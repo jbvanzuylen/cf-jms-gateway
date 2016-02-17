@@ -67,7 +67,7 @@ public class RailoJMSListenerGateway extends AbstractRailoJMSGateway
     final Struct event = RailoUtils.createStruct();
     event.setEL(GATEWAY_ID_KEY, this.getId());
     event.setEL(GATEWAY_TYPE_KEY, GATEWAY_TYPE);
-    event.setEL(DATA_KEY, data);
+    event.setEL(DATA_KEY, RailoUtils.toStruct(data));
     final Struct arguments = RailoUtils.createStruct();
     arguments.setEL(EVENT_KEY, event);
     final boolean success = this.engine.invokeListener(this, LISTENER_INVOKE_METHOD, arguments);
