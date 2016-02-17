@@ -53,9 +53,9 @@
         <filter token="RELEASE_DATE" value="${ext.release.date}" />
       </filterset>
     </copy>
-    <zip destfile="${build.dir}/railo/jms-gateway-ext.zip">
-      <zipfileset dir="${build.dir}/lib" includes="**/*.jar" prefix="lib" />
-      <zipfileset dir="${lib.dir}" includes="**/*.jar" prefix="lib" />
+    <zip destfile="${build.dir}/railo/cf-jms-gateway-ext.zip">
+      <zipfileset dir="${build.dir}/lib" includes="*.jar" prefix="lib" />
+      <zipfileset dir="${lib.dir}" includes="*.jar" prefix="lib" />
       <zipfileset dir="${build.dir}/railo-temp" />
       <zipfileset dir="${basedir}/listener" prefix="listener" />
       <zipfileset file="LICENSE" fullpath="license.txt" />
@@ -74,9 +74,9 @@
         <filter token="RELEASE_DATE" value="${ext.release.date}" />
       </filterset>
     </copy>
-    <zip destfile="${build.dir}/lucee/jms-gateway-ext.zip">
-      <zipfileset dir="${build.dir}/lib" includes="**/*.jar" prefix="lib" />
-      <zipfileset dir="${lib.dir}" includes="**/*.jar" prefix="lib" />
+    <zip destfile="${build.dir}/lucee/cf-jms-gateway-ext.zip">
+      <zipfileset dir="${build.dir}/lib" includes="*.jar" prefix="lib" />
+      <zipfileset dir="${lib.dir}" includes="*.jar" prefix="lib" />
       <zipfileset dir="${build.dir}/lucee-temp" />
       <zipfileset dir="${basedir}/listener" prefix="listener" />
       <zipfileset file="LICENSE" fullpath="license.txt" />
@@ -84,14 +84,8 @@
     <delete dir="${build.dir}/lucee-temp" />
   </target>
 
-  <target name="dist" depends="init, build, package-railo-extension">
-    <zip destfile="${dist.dir}/cf-jms-gateway-${project.version}.zip">
-      <zipfileset dir="${build.dir}/lib" includes="**/*.jar" prefix="lib" />
-      <zipfileset dir="${lib.dir}" includes="**/*.jar" prefix="lib" />
-      <zipfileset dir="${basedir}/listener" prefix="listener" />
-      <zipfileset file="${build.dir}/railo/jms-gateway-ext.zip" prefix="railo" />
-      <zipfileset file="${build.dir}/lucee/jms-gateway-ext.zip" prefix="lucee" />
-      <zipfileset file="LICENSE" fullpath="license.txt" />
-    </zip>
+  <target name="dist" depends="init, build, package-railo-extension, package-lucee-extension">
+    <copy file="${build.dir}/railo/cf-jms-gateway-ext.zip" tofile="${dist.dir}/cf-jms-gateway-railo-ext.zip" />
+    <copy file="${build.dir}/lucee/cf-jms-gateway-ext.zip" tofile="${dist.dir}/cf-jms-gateway-lucee-ext.zip" />
   </target>
 </project>
