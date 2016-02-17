@@ -31,7 +31,7 @@
   </target>
 
   <target name="compile">
-    <javac srcdir="${src.dir}" destdir="${build.dir}/classes" debug="true">
+    <javac srcdir="${src.dir}" destdir="${build.dir}/classes" source="1.6" target="1.6" debug="true">
       <classpath refid="class.path" />
     </javac>
   </target>
