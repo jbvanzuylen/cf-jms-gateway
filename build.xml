@@ -2,7 +2,7 @@
 <project name="cf-jms-gateway" default="dist" basedir=".">
   <property name="src.dir" value="${basedir}/src" />
   <property name="lib.dir" value="${basedir}/lib" />
-  <property name="lucee.dir" value="${basedir}/lucee" />
+  <property name="lucee4.dir" value="${basedir}/lucee4" />
   <property name="build.dir" value="${basedir}/build" />
   <property name="dist.dir" value="${basedir}/dist" />
 
@@ -21,7 +21,7 @@
   <target name="init" depends="clean">
     <mkdir dir="${build.dir}/classes" />
     <mkdir dir="${build.dir}/lib" />
-    <mkdir dir="${build.dir}/lucee" />
+    <mkdir dir="${build.dir}/lucee4" />
     <mkdir dir="${dist.dir}" />
   </target>
 
@@ -37,28 +37,32 @@
     </jar>
   </target>
 
-  <target name="package-lucee-extension" depends="init, build" description="Package the extension for Lucee">
+  <target name="package-lucee4-extension" depends="init, build" description="Package the extension for Lucee 4">
     <tstamp>
       <format property="ext.release.date" pattern="yyyy-MM-dd hh:mm:ss" />
     </tstamp>
-    <copy todir="${build.dir}/lucee-temp">
-      <fileset dir="${lucee.dir}" />
+    <copy todir="${build.dir}/lucee4-temp">
+      <fileset dir="${lucee4.dir}">
+        <exclude name="**/*.xml" />
+      </fileset>
+    </copy>
+    <copy file="${lucee4.dir}/config.xml" toFile="${build.dir}/lucee4-temp/config.xml">
       <filterset>
         <filter token="VERSION" value="${project.version}" />
         <filter token="RELEASE_DATE" value="${ext.release.date}" />
       </filterset>
     </copy>
-    <zip destfile="${build.dir}/lucee/cf-jms-gateway-ext.zip">
+    <zip destfile="${build.dir}/lucee4/cf-jms-gateway-ext.zip">
       <zipfileset dir="${build.dir}/lib" includes="*.jar" prefix="lib" />
       <zipfileset dir="${lib.dir}" includes="*.jar" prefix="lib" />
-      <zipfileset dir="${build.dir}/lucee-temp" />
+      <zipfileset dir="${build.dir}/lucee4-temp" />
       <zipfileset dir="${basedir}/listener" prefix="listener" />
       <zipfileset file="LICENSE" fullpath="license.txt" />
     </zip>
-    <delete dir="${build.dir}/lucee-temp" />
+    <delete dir="${build.dir}/lucee4-temp" />
   </target>
 
-  <target name="dist" depends="init, package-lucee-extension">
-    <copy file="${build.dir}/lucee/cf-jms-gateway-ext.zip" tofile="${dist.dir}/cf-jms-gateway-lucee-ext.zip" />
+  <target name="dist" depends="init, package-lucee4-extension">
+    <copy file="${build.dir}/lucee4/cf-jms-gateway-ext.zip" tofile="${dist.dir}/cf-jms-gateway-lucee4-ext.zip" />
   </target>
 </project>

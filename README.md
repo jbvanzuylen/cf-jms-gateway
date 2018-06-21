@@ -4,7 +4,7 @@ __JMS Gateways for ColdFusion__
 
 # How to install
 
-### Lucee
+### Lucee 4
 
 * Copy the `.jar` files needed for the connection to your favorite JMS server in the `WEB-INF\lucee\lib` folder of your web root (check the documentation of the JMS provider for info)
 * Restart Lucee

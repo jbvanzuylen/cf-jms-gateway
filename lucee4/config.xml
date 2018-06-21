@@ -7,7 +7,7 @@
     <label>JMS Gateway</label>
     <description></description>
     <version>@VERSION@</version>
-    <image>https://raw.github.com/jbvanzuylen/cf-jms-gateway/master/lucee/jms_logo.png</image>
+    <image>https://raw.github.com/jbvanzuylen/cf-jms-gateway/master/lucee4/jms_logo.png</image>
     <author>Jean-Bernard van Zuylen</author>
     <support>https://github.com/jbvanzuylen/cf-jms-gateway/issues</support>
     <created>@RELEASE_DATE@</created>
