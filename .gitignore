@@ -1,3 +1,4 @@
 # Build directories #
+lib/compile/
 build/
 dist/

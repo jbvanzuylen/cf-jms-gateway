@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
-<project name="cf-jms-gateway" default="build" basedir=".">
+<project name="cf-jms-gateway" default="dist" basedir=".">
   <property name="src.dir" value="${basedir}/src" />
   <property name="lib.dir" value="${basedir}/lib" />
-  <property name="railo.dir" value="${basedir}/railo" />
   <property name="lucee.dir" value="${basedir}/lucee" />
   <property name="build.dir" value="${basedir}/build" />
   <property name="dist.dir" value="${basedir}/dist" />
@@ -11,10 +10,7 @@
   <property file="build.properties" />
 
   <path id="class.path">
-    <fileset dir="${lib.dir}" includes="*.jar" />
-    <fileset file="${railo.jar.file}" />
-    <fileset file="${lucee.jar.file}" />
-    <fileset file="${acf.jar.file}" />
+    <fileset dir="${lib.dir}" includes="**/*.jar" />
   </path>
 
   <target name="clean">
@@ -25,7 +21,6 @@
   <target name="init" depends="clean">
     <mkdir dir="${build.dir}/classes" />
     <mkdir dir="${build.dir}/lib" />
-    <mkdir dir="${build.dir}/railo" />
     <mkdir dir="${build.dir}/lucee" />
     <mkdir dir="${dist.dir}" />
   </target>
@@ -40,27 +35,6 @@
     <jar destfile="${build.dir}/lib/jms-gateway.jar">
       <fileset dir="${build.dir}/classes" />
     </jar>
-  </target>
-
-  <target name="package-railo-extension" depends="init, build" description="Package the extension for Railo">
-    <tstamp>
-      <format property="ext.release.date" pattern="yyyy-MM-dd hh:mm:ss" />
-    </tstamp>
-    <copy todir="${build.dir}/railo-temp">
-      <fileset dir="${railo.dir}" />
-      <filterset>
-        <filter token="VERSION" value="${project.version}" />
-        <filter token="RELEASE_DATE" value="${ext.release.date}" />
-      </filterset>
-    </copy>
-    <zip destfile="${build.dir}/railo/cf-jms-gateway-ext.zip">
-      <zipfileset dir="${build.dir}/lib" includes="*.jar" prefix="lib" />
-      <zipfileset dir="${lib.dir}" includes="*.jar" prefix="lib" />
-      <zipfileset dir="${build.dir}/railo-temp" />
-      <zipfileset dir="${basedir}/listener" prefix="listener" />
-      <zipfileset file="LICENSE" fullpath="license.txt" />
-    </zip>
-    <delete dir="${build.dir}/railo-temp" />
   </target>
 
   <target name="package-lucee-extension" depends="init, build" description="Package the extension for Lucee">
@@ -84,8 +58,7 @@
     <delete dir="${build.dir}/lucee-temp" />
   </target>
 
-  <target name="dist" depends="init, build, package-railo-extension, package-lucee-extension">
-    <copy file="${build.dir}/railo/cf-jms-gateway-ext.zip" tofile="${dist.dir}/cf-jms-gateway-railo-ext.zip" />
+  <target name="dist" depends="init, package-lucee-extension">
     <copy file="${build.dir}/lucee/cf-jms-gateway-ext.zip" tofile="${dist.dir}/cf-jms-gateway-lucee-ext.zip" />
   </target>
 </project>
